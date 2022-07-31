@@ -1,6 +1,6 @@
 # ServerGo_Challenge
 
-Go TCP server to transfer files between clients.
+Go TCP server to manage files between clients.
 
 The clients can subscribe to channels to send and receive files through CLI.
 
