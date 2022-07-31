@@ -1,8 +1,10 @@
 # ServerGo_Challenge
 
 Go TCP server to transfer files between clients.
-The clients can subscribe to channels to send and receive files.
-The process is controlled through CLI.
+
+The clients can subscribe to channels to send and receive files through CLI.
+
+(Default channels ch_1, ch_2, ch_3).
 
 # Server
 Enter the server folder and follow the next steps.
