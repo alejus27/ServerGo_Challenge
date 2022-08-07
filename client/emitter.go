@@ -9,32 +9,32 @@ import (
 	"os"
 )
 
-// Creates a new Emitter for a connection
+// Define la estructura del Emitter para la conexión
 type Emitter struct {
 	Connection    net.Conn
 	subscriptions []string
 }
 
-// NewEmitter creates a new Emitter.
+// NewEmitter() devuelve un nuevo Emitter para la conexión
 func NewEmitter(connection net.Conn) *Emitter {
 	return &Emitter{
 		Connection: connection,
 	}
 }
 
-
-// Subscribes to a channel.
+// Emite nueva suscripción a canal especifico
 func (emitter *Emitter) Subscribe(channel string) {
 	if emitter.isSubscribed(channel) {
 		PrintWarning("You are subscribed to", channel, "channel")
 		return
 	}
+
 	message := Message{Action: SUBSCRIBE, Channel: channel}
+
 	emitter.emit(message)
 }
 
-
-// Unsubscribes from a channel
+// Emite una nueva desuscripción a canal especifico
 func (emitter *Emitter) Unsubscribe(channel string) {
 	if !emitter.isSubscribed(channel) {
 		PrintWarning("You are not subscribed to", channel, "channel")
@@ -44,46 +44,47 @@ func (emitter *Emitter) Unsubscribe(channel string) {
 	emitter.emit(message)
 }
 
-
-// Send a file to a channel
+// Emite el envio de un archivo a canal especifico
 func (emitter *Emitter) SendFile(channel string, filePath string) {
+	// Verifica si el cliente está suscrito
 	if !emitter.isSubscribed(channel) {
 		PrintWarning("You are not subscribed to", channel, "channel")
 		return
 	}
 
-	file, err := os.Open(filePath)
+	file, err := os.Open(filePath) // Función integrada para leer un archivo en una ruta
+	// Devuelve un mensaje de error si no se pudo leer el archivo
 	if err != nil {
 		PrintError(err.Error())
 		return
 	}
-	defer file.Close()
-	infoFile, _ := file.Stat()
-	fileByte, _ := ioutil.ReadAll(file)
+	defer file.Close() // Cierre
+
+	infoFile, _ := file.Stat()          // Estructura del archivo
+	fileByte, _ := ioutil.ReadAll(file) // Lectura información del archivo
 	fileMessage := FileMessage{Name: infoFile.Name(), Size: infoFile.Size(), Content: fileByte, Mode: infoFile.Mode()}
-	fileMessageByte, _ := json.Marshal(fileMessage)
+	fileMessageByte, _ := json.Marshal(fileMessage) // Codificación a json del mensaje contenedor de las caracteristicas del archivo
 
 	message := Message{Action: SEND, Channel: channel, Message: fileMessageByte}
-	emitter.emit(message)
+	emitter.emit(message) // Emite un nuevo mensaje
 }
 
-
-
-
-// Sends a message to the connection.
+// Emite un mensaje a la conexión.
 func (emitter *Emitter) emit(message Message) {
 	data, _ := json.Marshal(message)
+	// Si el archivo pesa más de 5mb no hace el envio
 	if len(data) > MAX_SIZE {
 		PrintWarning("You can not upload more than 5 MB")
 		return
 	}
+	// Escribe la información en la conexión
 	emitter.Connection.Write(data)
 }
 
-
-// isSubscribed returns true if the channel is subscribed.
+// isSubscribed() devuelve true si el cliente está suscrito al canal especificado
 func (emitter *Emitter) isSubscribed(channel string) bool {
 	isSubscribed := false
+
 	for _, subscription := range emitter.subscriptions {
 		if subscription == channel {
 			isSubscribed = true
@@ -93,10 +94,7 @@ func (emitter *Emitter) isSubscribed(channel string) bool {
 	return isSubscribed
 }
 
-
-// OnEntry is called when an entry is received.
-
-
+// Se llama a OnEntry cuando se recibe una entrada, luego se devuelve una nuevo Emitter
 func (emitter *Emitter) OnEntry(options []string) {
 	switch options[0] {
 	case SUBSCRIBE:
@@ -111,16 +109,16 @@ func (emitter *Emitter) OnEntry(options []string) {
 
 }
 
-// Identifier returns a client identifier.
+//  Devuelve un identificador de cliente.
 func (emitter *Emitter) Identifier() string {
 	return "client"
 }
 
-// subscriptionListener returns a subscription listener that listens for subscribing channels.
 func (emitter *Emitter) subscriptionListener(responses map[string]chan string) {
 	go func() {
 		for channel := range responses[SUBSCRIBE] {
 			if !emitter.isSubscribed(channel) {
+				// Agrega a las suscripciones del Emitter un nuevo canal especificado
 				emitter.subscriptions = append(emitter.subscriptions, channel)
 			}
 		}
@@ -128,6 +126,7 @@ func (emitter *Emitter) subscriptionListener(responses map[string]chan string) {
 
 	go func() {
 		for response := range responses[UNSUBSCRIBE] {
+			// Elimina de las suscripciones del Emitter un canal especificado
 			position := -1
 			for i, subscription := range emitter.subscriptions {
 				if subscription == response {

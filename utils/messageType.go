@@ -3,14 +3,14 @@ package utils
 import "fmt"
 
 
-// PrintSuccess prints success message
+// Imprime mensaje de éxito ID: 001
 func PrintSuccess(args ...string) {
  
 	fmt.Println("001 - ", args)
 	
 }
 
-// PrintWarning prints a warning.
+// Imprime mensaje de advertencia ID: 002
 func PrintWarning(args ...string) {
 	
 	fmt.Println("002 - ", args)
@@ -18,7 +18,7 @@ func PrintWarning(args ...string) {
 }
 
 
-// PrintHelp calls fmt. Println with help.
+// Imprime mensaje de ayuda ID: 003
 func PrintHelp(args ...string) {
 
 	for _, arg := range args {
@@ -27,7 +27,7 @@ func PrintHelp(args ...string) {
 	
 }
 
-// PrintError prints an error message.
+// Imprime mensaje de error ID: 004
 func PrintError(args ...string) {
 	
 	for _, arg := range args {

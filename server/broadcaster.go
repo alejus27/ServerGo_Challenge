@@ -11,7 +11,8 @@ type Broadcaster struct {
 
 var singleInstance *Broadcaster
 
-// BroadcastInstance returns a single Broadcaster instance.
+// Devuelve una única instancia de Broadcaster,
+// El Broadcaster permite que el emisor envíe mensajes y los suscriptores escuchen estos
 func BroadcastInstance() *Broadcaster {
 	if singleInstance == nil {
 		singleInstance = &Broadcaster{}
@@ -19,14 +20,14 @@ func BroadcastInstance() *Broadcaster {
 	return singleInstance
 }
 
-// Broadcasts a message to all subscribers.
+// Emite un mensaje a todos los suscriptores (lista de clientes).
 func (broadcaster *Broadcaster) Broadcast(subscribers []*Client, message Message) {
 	for _, subscriber := range subscribers {
 		broadcaster.emit(subscriber, message)
 	}
 }
 
-// Emits a message to the client.
+// Emite un mensaje al cliente.
 func (broadcaster *Broadcaster) emit(subscriber *Client, message Message) {
 	data, err := json.Marshal(message)
 	if err != nil {

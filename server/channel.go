@@ -12,13 +12,14 @@ type Observer interface {
 	Identifier() string
 }
 
+// Define la estructura del canal.
 type Channel struct {
 	Name        string
 	Subscribers []*Client
 	broadcaster *Broadcaster
 }
 
-// NewChannel creates a new Channel.
+// Crea un nuevo canal.
 func NewChannel(name string) *Channel {
 	return &Channel{
 		Name:        name,
@@ -26,9 +27,10 @@ func NewChannel(name string) *Channel {
 	}
 }
 
-// Subscribe subscribes to a channel
+// Suscripción de clientes en canal.
 func (channel *Channel) Subscribe(client *Client) {
 	position := -1
+	// Devuelve la posición del suscriptor en el canal.
 	for i, subscriber := range channel.Subscribers {
 		if subscriber.ID == client.ID {
 			position = i
@@ -39,6 +41,7 @@ func (channel *Channel) Subscribe(client *Client) {
 	if position != -1 {
 		return
 	}
+	// Se agrega nuevo suscriptor al canal y se imprime un mensaje de éxito.
 	channel.Subscribers = append(channel.Subscribers, client)
 	PrintSuccess("New subscriber to", channel.Name, "Channel")
 
@@ -47,7 +50,7 @@ func (channel *Channel) Subscribe(client *Client) {
 	channel.broadcaster.Broadcast([]*Client{client}, message)
 }
 
-// Unsubscribes a client from a channel
+// Cancelación de suscripción de clientes en canal.
 func (channel *Channel) Unsubscribe(client *Client) {
 	position := -1
 	for i, subscriber := range channel.Subscribers {
@@ -62,7 +65,7 @@ func (channel *Channel) Unsubscribe(client *Client) {
 	}
 
 	channel.Subscribers = append(channel.Subscribers[:position], channel.Subscribers[position+1:]...)
-
+	// Se elimina suscriptor de canal y se imprime un mensaje de advertencia.
 	msg, _ := json.Marshal("Successfully unsubscribed to " + channel.Name + " Channel")
 	message := Message{Action: UNSUBSCRIBE, Channel: channel.Name, Message: msg}
 	channel.broadcaster.Broadcast([]*Client{client}, message)
@@ -70,7 +73,7 @@ func (channel *Channel) Unsubscribe(client *Client) {
 
 }
 
-// Send sends a message to a channel
+// Envio de archivos.
 func (channel *Channel) Send(client *Client, message Message) {
 	position := -1
 	for i, subscriber := range channel.Subscribers {
@@ -90,6 +93,7 @@ func (channel *Channel) Send(client *Client, message Message) {
 		PrintError(err.Error())
 		return
 	}
+	// cliente recibe archivo.
 	PrintSuccess("A received file to", channel.Name, "Channel")
 
 	_copy := make([]*Client, len(channel.Subscribers))
@@ -103,7 +107,7 @@ func (channel *Channel) Send(client *Client, message Message) {
 
 }
 
-// OnMessage sends a message to a channel.
+// Se llama cuando un canal recibe un mensaje.
 func (channel *Channel) OnMessage(client *Client, message Message) {
 	switch message.Action {
 	case SUBSCRIBE:
