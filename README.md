@@ -1,28 +1,31 @@
 # ServerGo_Challenge
 
-Go TCP server to manage files between clients.
+Servidor TCP desarollado en Golang para gestionar archivos entre clientes.
 
-The clients can subscribe to channels to send and receive files through CLI.
+Los clientes pueden suscribirse a canales para enviar y recibir archivos a través de la linea de comandos.
 
-(Default channels ch_1, ch_2, ch_3).
+(Canales predeterminados 'ch_1', 'ch_2', 'ch_3').
+
+
+# PUESTA EN MARCHA:
 
 # Server
-Enter the server folder and follow the next steps.
+Entrar en la carpeta del servidor y sigue los siguientes pasos:
 
-  - Run: go run .
+  - Ejecutar: 'go run .'
   
-  - Start: server start
+  - Iniciar: 'server start'
   
-  - Stop: server stop
+  - Detener: 'server stop'
 
 
 # Client
 Enter the client folder and follow the next steps.
 
-  - Run: go run .
+  - Ejecutar: 'go run .'
   
-  - Subscribe channel: subscribe channel:name
+  - Suscribirse a canal: 'subscribe channel:name'
   
-  - Unsubscribe channel: unsubscribe channel:name
+  - Desuscribirse a canal: 'unsubscribe channel:name'
 
-  - Send file: send channel:name file:path
+  - Enviar archivo: 'send channel:name file:path'
