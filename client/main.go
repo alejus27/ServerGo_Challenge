@@ -7,7 +7,7 @@ import (
 
 //var wg sync.WaitGroup
 
-// Clase principal donde se inicializa las nuevas conexiones
+// Clase principal donde se inicializa las nuevas conexiones por parte de clientes
 func main() {
 
 	connection := NewConnection()

@@ -93,7 +93,7 @@ func (channel *Channel) Send(client *Client, message Message) {
 		PrintError(err.Error())
 		return
 	}
-	// cliente recibe archivo.
+	// Cliente recibe archivo.
 	PrintSuccess("A received file to", channel.Name, "Channel")
 
 	_copy := make([]*Client, len(channel.Subscribers))

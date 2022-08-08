@@ -2,7 +2,7 @@ package utils
 
 import "regexp"
 
-// Define las constantes 
+// Define las constantes generales del programa
 const (
 	maxSizeMb   = 5
 	SUBSCRIBE   = "subscribe"

@@ -15,7 +15,7 @@ type Listener struct {
 	active     bool
 }
 
-// crea un nuevo Listener para la conexión dada.
+// Crea un nuevo Listener para la conexión dada.
 func NewListener(connection net.Conn) *Listener {
 	responses := make(map[string]chan string)
 	responses[SUBSCRIBE] = make(chan string)
@@ -58,7 +58,7 @@ func (listener *Listener) Listen() {
 	}
 }
 
-// Stop() detiene la conexión del Listener.
+// Detiene la conexión del Listener.
 func (listener *Listener) Stop() {
 	listener.active = false
 }
@@ -78,7 +78,7 @@ func (listener *Listener) Unsubscribe(response Message) {
 // Envía un mensaje al servidor
 func (listener *Listener) Send(response Message) {
 	var fileMessage FileMessage
-	err := json.Unmarshal(response.Message, &fileMessage) //Comversión a json
+	err := json.Unmarshal(response.Message, &fileMessage) //Conversión a json
 	if err != nil {
 		//PrintError(err.Error())
 		PrintSuccess(string(response.Message))

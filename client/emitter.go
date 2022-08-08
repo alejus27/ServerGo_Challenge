@@ -15,7 +15,7 @@ type Emitter struct {
 	subscriptions []string
 }
 
-// NewEmitter() devuelve un nuevo Emitter para la conexión
+// Devuelve un nuevo Emitter para la conexión.
 func NewEmitter(connection net.Conn) *Emitter {
 	return &Emitter{
 		Connection: connection,
@@ -81,7 +81,7 @@ func (emitter *Emitter) emit(message Message) {
 	emitter.Connection.Write(data)
 }
 
-// isSubscribed() devuelve true si el cliente está suscrito al canal especificado
+// Devuelve verdadero si el cliente está suscrito al canal especificado
 func (emitter *Emitter) isSubscribed(channel string) bool {
 	isSubscribed := false
 

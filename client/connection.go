@@ -45,7 +45,7 @@ func (connection *Connection) HandleResponse() {
 	connection.listener.Listen()
 }
 
-// Pausa y cierra la conexión 
+// Detiene y cierra la conexión 
 func (connection *Connection) close() {
 	connection.listener.Stop()
 	connection.Conn.Close()
