@@ -125,7 +125,7 @@ func (cli *Cli) help() {
 
 // Parametros invalidos.
 func (cli *Cli) invalid() {
-	PrintError("Invalid parameters", "Run command 'help'")
+	PrintError("Invalid parameters - Run command 'help'")
 }
 
 // Agrega un observador a la linea de comandos.
