@@ -40,7 +40,7 @@ func (cli *Cli) Start() {
 
 
 
-// Escucha constantemente por nuevos datos de entrada a través de la linea de comandos.
+// Escucha por nuevos datos de entrada a través de la linea de comandos.
 func (cli *Cli) listenInput() {
 	for {
 		reader := bufio.NewReader(os.Stdin)
@@ -120,12 +120,12 @@ func (cli *Cli) value(param string) string {
 func (cli *Cli) help() {
 	PrintHelp("----subscribe channel:name----",
 		"----unsubscribe channel:name----",
-		"----send channel:name file:path----")
+		"----send channel:name file:path (max file size: 5 MB)----")
 }
 
 // Parametros invalidos.
 func (cli *Cli) invalid() {
-	PrintError("Invalid parameters", "Run command help")
+	PrintError("Invalid parameters", "Run command 'help'")
 }
 
 // Agrega un observador a la linea de comandos.
