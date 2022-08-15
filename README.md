@@ -7,7 +7,7 @@ Los clientes pueden suscribirse a canales para enviar y recibir archivos a trav√
 (Canales predeterminados "ch_1", "ch_2", "ch_3").
 
 
-# PUESTA EN MARCHA:
+# -- Ejecuci√≥n --
 
 # Server
 Entrar en la carpeta del servidor y sigue los siguientes pasos:
