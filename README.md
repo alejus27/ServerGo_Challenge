@@ -1,8 +1,8 @@
 # ServerGo_Challenge
 
-Servidor TCP desarollado en Golang para gestionar archivos entre clientes.
+Servidor TCP desarollado en Go para gestionar archivos entre clientes.
 
-Los clientes pueden suscribirse a canales para enviar y recibir archivos a través de linea de comandos.
+Los clientes pueden suscribirse a canales para enviar y recibir archivos a través de la linea de comandos.
 
 (Canales predeterminados "ch_1", "ch_2", "ch_3").
 

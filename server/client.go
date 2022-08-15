@@ -14,7 +14,7 @@ type Subject interface {
 	NotifyAll(message Message)
 }
 
-// Define la estructura del cliente.
+
 type Client struct {
 	ID         uuid.UUID
 	Address    string
@@ -22,7 +22,7 @@ type Client struct {
 	Observers  []Observer
 }
 
-// Crea un nuevo cliente.
+
 func NewClient(connection net.Conn) *Client {
 	return &Client{
 		ID:         uuid.New(),
@@ -31,15 +31,14 @@ func NewClient(connection net.Conn) *Client {
 	}
 }
 
-// Control de clientes.
+
 func (client *Client) handle(disconnected chan *Client) {
 	var message Message
 	for {
 		b := make([]byte, MAX_SIZE)
-		bs, err := client.Connection.Read(b) // Lee la información que emite el cliente y lo guarda en el Slice b.
+		bs, err := client.Connection.Read(b)
 
 		if err != nil {
-			// Cliente se desconecta del servidor y se emite un mensaje.
 			PrintError(err.Error(), "1 subscriber went offline")
 			disconnected <- client
 			for _, obs := range client.Observers {
@@ -59,12 +58,12 @@ func (client *Client) handle(disconnected chan *Client) {
 	}
 }
 
-// Agrega un observador al cliente.
+
 func (client *Client) Register(observer Observer) {
 	client.Observers = append(client.Observers, observer)
 }
 
-// Quita un observador al cliente.
+
 func (client *Client) Unregister(observer Observer) {
 	for i, obs := range client.Observers {
 		if obs.Identifier() == observer.Identifier() {
@@ -73,7 +72,6 @@ func (client *Client) Unregister(observer Observer) {
 	}
 }
 
-// Notifica a todos los observadores de un mensaje.
 func (client *Client) NotifyAll(message Message) {
 	for _, obs := range client.Observers {
 		if obs.Identifier() == message.Channel {

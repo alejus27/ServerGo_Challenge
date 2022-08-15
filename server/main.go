@@ -4,7 +4,7 @@ import (
 	. "file-server/cli"
 )
 
-// Clase principal donde se inicializa el servidor
+// Clase principal
 func main() {
 	server := NewServer()
 	cli := NewCli("server")

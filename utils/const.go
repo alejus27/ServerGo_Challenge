@@ -2,7 +2,7 @@ package utils
 
 import "regexp"
 
-// Define las constantes generales del programa
+// Constantes generales
 const (
 	maxSizeMb   = 5
 	SUBSCRIBE   = "subscribe"
@@ -13,7 +13,7 @@ const (
 	EXIT        = "exit"
 	START       = "server start"
 	STOP        = "server stop"
-	MAX_SIZE    = 1024 * 1024 * maxSizeMb
+	MAX_SIZE    = 1048576 * maxSizeMb //1 megabyte => 1,024*1,024 = 1,048,576 bytes
 )
 
 // Patrones de expresiones regulares
