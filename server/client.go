@@ -47,6 +47,7 @@ func (client *Client) handle(disconnected chan *Client) {
 				}
 			}
 			break
+			
 		} else {
 			err = json.Unmarshal(b[:bs], &message)
 			if err != nil {

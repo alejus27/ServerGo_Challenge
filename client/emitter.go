@@ -42,7 +42,6 @@ func (emitter *Emitter) Unsubscribe(channel string) {
 
 
 func (emitter *Emitter) SendFile(channel string, filePath string) {
-	// Verificación
 	if !emitter.isSubscribed(channel) {
 		PrintWarning("You are not subscribed to", channel, "channel")
 		return

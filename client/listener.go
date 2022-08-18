@@ -28,7 +28,6 @@ func NewListener(connection net.Conn) *Listener {
 }
 
 
-// El Listener escucha los mensajes entrantes
 func (listener *Listener) Listen() {
 	var response Message
 	

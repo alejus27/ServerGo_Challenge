@@ -41,7 +41,6 @@ func (channel *Channel) Subscribe(client *Client) {
 		return
 	}
 
-
 	channel.Subscribers = append(channel.Subscribers, client)
 	PrintSuccess("New subscriber to", channel.Name, "Channel")
 
