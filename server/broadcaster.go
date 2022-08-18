@@ -19,6 +19,7 @@ func BroadcastInstance() *Broadcaster {
 	return singleInstance
 }
 
+// Emisión de mensaje a todos los suscriptores
 func (broadcaster *Broadcaster) Broadcast(subscribers []*Client, message Message) {
 	for _, subscriber := range subscribers {
 		broadcaster.emit(subscriber, message)
@@ -31,9 +32,9 @@ func (broadcaster *Broadcaster) emit(subscriber *Client, message Message) {
 	if err != nil {
 		PrintError(err.Error())
 	}
-	if len(data) > MAX_SIZE {
+	/*if len(data) > MAX_SIZE {
 		PrintWarning("You can not upload more than 5 MB")
 		return
-	}
+	}*/
 	subscriber.Connection.Write(data)
 }

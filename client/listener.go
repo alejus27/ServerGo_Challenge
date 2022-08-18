@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-
+// Define la estructura del Listener para la conexión
 type Listener struct {
 	Connection net.Conn
 	Responses  map[string]chan string
@@ -34,7 +34,8 @@ func (listener *Listener) Listen() {
 	for listener.active {
 		b := make([]byte, MAX_SIZE)
 		bs, err := listener.Connection.Read(b) 
-
+		
+		// Si el listener no recibe más mensajes se desconecta de la conexión
 		if err != nil {
 			PrintError(err.Error(), "Disconnected")
 			listener.Stop()
@@ -77,6 +78,7 @@ func (listener *Listener) Unsubscribe(response Message) {
 	listener.Responses[UNSUBSCRIBE] <- response.Channel
 }
 
+// Guarda el archivo por los usuarios subscritos
 func (listener *Listener) Send(response Message) {
 	var fileMessage FileMessage
 	err := json.Unmarshal(response.Message, &fileMessage)

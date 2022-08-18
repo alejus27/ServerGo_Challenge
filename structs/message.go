@@ -6,9 +6,9 @@ import (
 )
 
 type Message struct {
-	Action  string          `json:"action"`
-	Channel string          `json:"channel"`
-	Message json.RawMessage `json:"message"`
+	Action  string          
+	Channel string          
+	Message json.RawMessage 
 }
 
 type FileMessage struct {

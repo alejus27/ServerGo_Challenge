@@ -12,14 +12,14 @@ type Observer interface {
 	Identifier() string
 }
 
-
+// Define la estructura del canal.
 type Channel struct {
 	Name        string
 	Subscribers []*Client
 	broadcaster *Broadcaster
 }
 
-
+// Crea un nuevo canal.
 func NewChannel(name string) *Channel {
 	return &Channel{
 		Name:        name,
@@ -27,9 +27,11 @@ func NewChannel(name string) *Channel {
 	}
 }
 
+// Control de susbcripciones en un canal
 func (channel *Channel) Subscribe(client *Client) {
 	position := -1
 
+	// Devuelve la posición del suscriptor en el canal.
 	for i, subscriber := range channel.Subscribers {
 		if subscriber.ID == client.ID {
 			position = i
@@ -41,6 +43,7 @@ func (channel *Channel) Subscribe(client *Client) {
 		return
 	}
 
+	// Se agrega nuevo suscriptor al canal y se imprime un mensaje de éxito.
 	channel.Subscribers = append(channel.Subscribers, client)
 	PrintSuccess("New subscriber to", channel.Name, "Channel")
 
@@ -62,7 +65,8 @@ func (channel *Channel) Unsubscribe(client *Client) {
 	if position == -1 {
 		return
 	}
-
+	
+	// Se elimina suscriptor de canal y se imprime un mensaje de advertencia.
 	channel.Subscribers = append(channel.Subscribers[:position], channel.Subscribers[position+1:]...)
 	msg, _ := json.Marshal("Successfully unsubscribed to " + channel.Name + " Channel")
 	message := Message{Action: UNSUBSCRIBE, Channel: channel.Name, Message: msg}
@@ -71,6 +75,7 @@ func (channel *Channel) Unsubscribe(client *Client) {
 
 }
 
+// Control de envio de archivos.
 func (channel *Channel) Send(client *Client, message Message) {
 	position := -1
 	for i, subscriber := range channel.Subscribers {

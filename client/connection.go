@@ -5,14 +5,16 @@ import (
 	"net"
 )
 
+// Estructura
 type Connection struct {
 	Network  string
 	Address  string
-	Conn     net.Conn
+	Conn     net.Conn //Conexión de red genérica orientada a la transmisión
 	emitter  *Emitter 
 	listener *Listener 
 }
 
+// Parámetros para conexión con servidor.
 func NewConnection() *Connection {
 	return &Connection{
 		Network: "tcp",
@@ -20,6 +22,7 @@ func NewConnection() *Connection {
 	}
 }
 
+// Conexión al servidor.
 func (connection *Connection) Start() error {
 	c, err := net.Dial("tcp", ":20000")
 
@@ -27,7 +30,7 @@ func (connection *Connection) Start() error {
 		PrintError(err.Error())
 		return err
 	}
-
+	// Conexión exitosa al servidor
 	PrintSuccess("---> Successful connection to the server <---")
 
 	connection.Conn = c 

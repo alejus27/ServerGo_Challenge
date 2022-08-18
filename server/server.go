@@ -5,7 +5,7 @@ import (
 	"net"
 )
 
-
+// Define la estructura del servidor.
 type Server struct {
 	Network  string
 	Address  string
@@ -14,7 +14,7 @@ type Server struct {
 	Channels []Channel
 }
 
-
+// Devuelve un servidor TCP.
 func NewServer() *Server {
 	return &Server{
 		Network: "tcp",
@@ -22,7 +22,7 @@ func NewServer() *Server {
 	}
 }
 
-
+// Inicializa el servidor del tipo y dirección dadas.
 func (server *Server) Start() {
 	listener, err := net.Listen("tcp", ":20000")
 	server.listener = listener
@@ -30,7 +30,7 @@ func (server *Server) Start() {
 		PrintError(err.Error())
 		return
 	}
-
+	// Canales predefinidos para suscripción.
 	server.Channels = append(server.Channels, *NewChannel("ch_1"))
 	server.Channels = append(server.Channels, *NewChannel("ch_2"))
 	server.Channels = append(server.Channels, *NewChannel("ch_3"))
@@ -39,7 +39,7 @@ func (server *Server) Start() {
 	PrintSuccess("----Server started----")
 }
 
-
+// Escucha por nuevas conexiones
 func (server *Server) listen() {
 	disconnected := make(chan *Client)
 	go server.disconnectClient(disconnected)
@@ -59,7 +59,7 @@ func (server *Server) listen() {
 	}
 }
 
-
+// Desconecta a un cliente de todos los canales.
 func (server *Server) disconnectClient(disconnected chan *Client) {
 	for client := range disconnected {
 		for i, cl := range server.Clients {
@@ -75,7 +75,7 @@ func (server *Server) disconnectClient(disconnected chan *Client) {
 	}
 }
 
-
+// OnEntry se invoca cuando se inicia o detiene un servidor.
 func (server *Server) OnEntry(options []string) {
 	switch options[0] {
 	case START:
@@ -85,12 +85,12 @@ func (server *Server) OnEntry(options []string) {
 	}
 }
 
-
+// Devuelve el identificador del servidor.
 func (server *Server) Identifier() string {
 	return "server"
 }
 
-
+// Cierra el servidor y expulsa a todos los clientes.
 func (server *Server) Stop() {
 	for i := 0; i < len(server.Clients); i++ {
 		client := server.Clients[i]
